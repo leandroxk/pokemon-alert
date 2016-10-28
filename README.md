@@ -13,7 +13,7 @@ First, you need install Chrome Driver:
 Install Python 2.7:
 > https://www.python.org/downloads/
 
-Install requered python packaged (use with virtualenv):
+Install required python package (use with virtualenv):
 > pip install -r requirements.txt
 
 Create this folders in home dir (~/.pokemon/ and ~/.pokemon/logs):
