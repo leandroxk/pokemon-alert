@@ -55,7 +55,8 @@ In ~/.pokemon create config.json and puts your email info:
 
 ### Usage
 
-> python main.py <place>
+> python main.py place
+
 > ex: python main.py university
 
 ### TODO:
