@@ -2,7 +2,7 @@
 
 Automatic search pokemon in FPM using python and webdriver, sending email when it encounters.
 
-### Install Dependecies
+### Install some programs
 
 I only tested on Linux, but running on windows should not be a problem.
 
@@ -49,6 +49,9 @@ In ~/.pokemon create config.json and puts your email info:
 	}
 }
 ```
+### About Maps Key
+> https://developers.google.com/maps/documentation/javascript/get-api-key
+
 
 ### Usage
 
