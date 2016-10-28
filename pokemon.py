@@ -47,7 +47,4 @@ class PokemonEncounter():
     @retry(stop_max_delay=10000)
     def _current_time(self):
         return time.time()
-#    	try:
-#    		return NTPClient().request('gps.ntp.br').tx_time
-#    	except Exception, e:
-#    		return time.time()
+        
