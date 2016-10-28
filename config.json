@@ -10,29 +10,9 @@
 		}
 	},
 	"places": {
-		"grevileas": {
-			"latitude": "-23.424694",
-			"longitude": "-51.9679637"
-		},
-		"catedral": {
-			"latitude": "-23.426085",
-			"longitude": "-51.9397617"
-		},
-		"uem": {
+		"university": {
 			"latitude": "-23.404278",
 			"longitude": "-51.9432267"
-		},
-		"antenas": {
-			"latitude": "-23.42938",
-			"longitude": "-51.9613767"
-		},
-		"peladao": {
-			"latitude": "-23.422804",
-			"longitude": "-51.9555827"
-		},
-		"catuai": {
-			"latitude": "-23.420008",
-			"longitude": "-51.9724617"
 		}
 	}
 
