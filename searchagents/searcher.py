@@ -28,5 +28,5 @@ class GPSSpots():
 class Filter():
 
 	def accept(self, encounter):
-		pokemon = ['dragonite', 'snorlax', 'gengar']
+		pokemon = ['dragonite', 'snorlax']
 		return encounter.name().lower() in pokemon

@@ -25,4 +25,4 @@ mail_consumer = GmailConsumer(email_config.send_from(),
 	Filter())
 
 while True:
-	PokemonSearcher(spots, FPMWebdriverAgent([PrintConsumer(), FileConsumer(), mail_consumer	])).search(4)	
+	PokemonSearcher(spots, FPMWebdriverAgent([PrintConsumer(), FileConsumer(), mail_consumer	])).search(3)	
