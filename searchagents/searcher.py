@@ -27,6 +27,7 @@ class GPSSpots():
 
 class Filter():
 
+	#TODO: move pokemon to config.json
 	def accept(self, encounter):
 		pokemon = ['dragonite', 'snorlax']
 		return encounter.name().lower() in pokemon
