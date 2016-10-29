@@ -25,7 +25,7 @@ In ~/.pokemon create config.json and puts your email info:
 {
 	"global": {
 		"email": {
-			"from": "mail@mail.com",
+			"from": "mail@gmail.com",
 			"password": "emailpassword",
 			"maps-key": "mapskey",
 			"to": [
