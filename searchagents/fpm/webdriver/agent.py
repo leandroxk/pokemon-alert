@@ -90,6 +90,7 @@ class FPMSearchResult():
 				expiration_ts = element.find_element_by_class_name('remainingtext').get_attribute('data-expire')
 			except Exception, e:
 				print 'pokemon disappears...'
+				continue
 
 			expiration = float(expiration_ts) / 1000
 			spawn = ''
