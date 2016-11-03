@@ -25,7 +25,7 @@ In ~/.pokemon create config.json and puts your email info:
 {
 	"global": {
 		"email": {
-			"from": "mail@mail.com",
+			"from": "mail@gmail.com",
 			"password": "emailpassword",
 			"maps-key": "mapskey",
 			"to": [
@@ -58,6 +58,14 @@ In ~/.pokemon create config.json and puts your email info:
 > python main.py place
 
 > ex: python main.py university
+
+
+### Headless
+
+> sudo apt-get install xvfb
+
+> ex: xvfb-run -a python main.py place
+
 
 ### TODO:
 Move search pokemon names (still in searchagents/searcher.py (shame, shame, shame!!!)) to config.json
