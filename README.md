@@ -64,7 +64,7 @@ In ~/.pokemon create config.json and puts your email info:
 
 > sudo apt-get install xvfb
 
-> ex: xvfb-run python main.py place
+> ex: xvfb-run -a python main.py place
 
 
 ### TODO:
