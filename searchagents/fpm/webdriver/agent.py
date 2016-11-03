@@ -32,43 +32,50 @@ class FPMWebdriverAgent():
 		lat, lng = spot
 		dests = HoneycombSearchPattern(lat, lng, loops_num, FPM_DIAMETER).get_destinations()
 
-		driver = self.open_fpm()
+		driver = self.open_fpm(spot)
 		for spot in dests:
-			try:
-				result = self._search(driver, spot)
-				for consumer in self._consumers:
-					consumer.consume(result)
-			except Exception as e:
-				print str(e)
-				print 'Erro ao procurar pokemon no  FPM, recuperando...'
+			#try:
+			result = self._search(driver, spot)
+			for consumer in self._consumers:
+				consumer.consume(result)
+			#except Exception as e:
+			#	print str(e)
+			#	print 'Erro ao procurar pokemon no  FPM, recuperando...'
 		
 		driver.quit()
 
-	def open_fpm(self):
-		options = Options()
-		prefs = { "profile.default_content_setting_values.geolocation" : 2 }
-		options.add_experimental_option("prefs", prefs)
-
-		driver = webdriver.Chrome(chrome_options=options)
+	def open_fpm(self, spot):
+		driver = webdriver.Chrome()
 		driver.maximize_window()
+
+		self._set_geolocation(driver, spot)
+		driver.get('https://fastpokemap.se/')
+		driver.refresh()
+
+		self._click(driver, 'close')
+		self._click(driver, 'location')
 
 		return driver
 
+	def _click(self, driver, class_name):
+		WebDriverWait(driver, TIMEOUT).until(EC.element_to_be_clickable((By.CLASS_NAME, class_name)))
+		driver.find_element_by_class_name(class_name).click()
+
 	@retry(stop_max_attempt_number=10)
 	def _search(self, driver, spot):
-		driver.get('https://fastpokemap.se/#%s,%s' % spot)
-		driver.refresh()
-		WebDriverWait(driver, TIMEOUT).until(
-			EC.element_to_be_clickable((By.CLASS_NAME, 'close')))
-		driver.find_element_by_class_name('close').click()
-		WebDriverWait(driver, TIMEOUT).until(
-			EC.element_to_be_clickable((By.CLASS_NAME, 'scan')))
-		driver.find_element_by_class_name('scan').click()
+		self._set_geolocation(driver, spot)
+		self._click('scan')
+
 		WebDriverWait(driver, TIMEOUT).until(
 			EC.invisibility_of_element_located((By.CLASS_NAME, 'active')))
 
 		elements = driver.find_elements_by_class_name('displaypokemon')
 		return FPMSearchResult(elements)
+
+	def _set_geolocation(self, driver, spot):
+		geo_js = "window.navigator.geolocation.getCurrentPosition=function(success){ var position = {\"coords\" : {\"latitude\": \"%s\",\"longitude\": \"%s\"}}; success(position);}" % spot
+		print geo_js
+		driver.execute_script(geo_js);
 
 
 class FPMSearchResult():
