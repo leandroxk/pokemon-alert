@@ -1,5 +1,6 @@
 
 from consumers import PrintConsumer, GmailConsumer
+from config import FilterConfig
 
 
 class PokemonSearcher():
@@ -27,7 +28,9 @@ class GPSSpots():
 
 class Filter():
 
-	#TODO: move pokemon to config.json
-	def accept(self, encounter):
-		pokemon = ['dragonite', 'snorlax']
-		return encounter.name().lower() in pokemon
+	def __init__(self, filter_config):
+		self._config = filter_config
+
+	def accept(self, pokemon):
+		names = self._config.names()
+		return pokemon.name().lower() in (name.lower() for name in names)

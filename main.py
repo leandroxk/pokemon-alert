@@ -18,11 +18,8 @@ spots = GPSSpots()
 spots.add(config.latitude(), config.longitude())
 
 email_config = config.email()
-mail_consumer = GmailConsumer(email_config.send_from(), 
-	email_config.password(), 
-	email_config.send_to(),
-	email_config.gmap_key(), 
-	Filter())
+filter_config = config.filter()
+mail_consumer = GmailConsumer(email_config, Filter(filter_config))
 
 while True:
-	PokemonSearcher(spots, FPMWebdriverAgent([PrintConsumer(), FileConsumer(), mail_consumer	])).search(3)	
+	PokemonSearcher(spots, FPMWebdriverAgent([PrintConsumer(), FileConsumer(), mail_consumer])).search(3)	

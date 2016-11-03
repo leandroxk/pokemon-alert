@@ -37,21 +37,40 @@ class FileConsumer():
 
 class GmailConsumer():
 
-	def __init__(self, from_mail, password, to_emails, gmap_key, encounter_filter):
-		self._guser = from_mail
-		self._gpass = password
-		self._to_emails = to_emails
-		self._filter = encounter_filter
-		self._gmap_key = gmap_key
+	def __init__(self, email_config, pokemon_filter):
+		self._guser = email_config.send_from()
+		self._gpass = email_config.password() 
+		self._to_emails = email_config.send_to()
+		self._gmap_key = email_config.gmap_key()
+		self._cont_enable = email_config.is_continuous_enable()
+		self._cont_interval = email_config.continuous_interval()
+		self._filter = pokemon_filter
+		self._history = {}
 
 	def consume(self, search_result):
 		for pokemon in search_result.pokemon():
-			if self._filter.accept(pokemon):
+			if self._filter.accept(pokemon) and not self.is_already_sent(pokemon):
 				print 'sending email...'
-				self.mail(pokemon)
+				self.send_mail(pokemon)
 
+	def is_already_sent(self, pokemon):
+		encounter_id = pokemon.encounter_id
+		if not encounter_id in self._history:
+			return False
 
-	def mail(self, encounter):
+		if not self._cont_enable:
+			return True
+
+		last_time = self._history[encounter_id]
+		interval_sec = (time.time() - last_time)
+		interval_min = (interval_sec / 60) % 60
+
+		if interval_min < self._cont_interval:
+			return True
+
+		return False
+
+	def send_mail(self, encounter):
 		msg = MIMEMultipart()
 		msg['From'] = self._guser
 		msg['To'] = ", ".join(self._to_emails)
@@ -61,6 +80,7 @@ class GmailConsumer():
 		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 		server.login(self._guser, self._gpass)
 		server.sendmail(self._guser, self._to_emails, msg.as_string())
+		self._history[encounter.encounter_id] = time.time()
 		server.close()
 
 	def _mail_text(self, encounter):

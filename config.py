@@ -25,6 +25,8 @@ class Config():
 	def email(self):
 		return EmailConfig(self._global)
 
+	def filter(self):
+		return FilterConfig(self._global)
 
 class EmailConfig():
 
@@ -42,3 +44,20 @@ class EmailConfig():
 
 	def gmap_key(self):
 		return self._config['maps-key']
+
+	def is_continuous_enable(self):
+		return self._config.get('continuous', {}).get('enable', True)
+
+	def continuous_interval(self):
+		cont_dict = self._config.get('continuous', {})
+		interval = cont_dict.get('minimum-interval-in-minutes', 1)
+		return int(interval)
+
+
+class FilterConfig():
+
+	def __init__(self, global_config):
+		self._config = global_config['filter']
+
+	def names(self):
+		return self._config['names']

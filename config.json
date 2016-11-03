@@ -4,9 +4,16 @@
 			"from": "",
 			"password": "",
 			"maps-key": "",
+			"continuous": {
+				"enable": true,
+				"minimum-interval-in-minutes": "2"
+			},
 			"to": [
 				""
 			]
+		},
+		"filter":{
+			"names": [ "dragonite", "snorlax" ]
 		}
 	},
 	"places": {

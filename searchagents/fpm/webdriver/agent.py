@@ -3,6 +3,7 @@ import time
 import requests
 import math
 import signal
+import hashlib
 
 from retrying import retry
 from fake_useragent import UserAgent
@@ -33,13 +34,13 @@ class FPMWebdriverAgent():
 
 		driver = self.open_fpm()
 		for spot in dests:
-			try:
-				result = self._search(driver, spot)
-				for consumer in self._consumers:
-					consumer.consume(result)
-			except Exception as e:
-				print str(e)
-				print 'Erro ao procurar pokemon no  FPM, recuperando...'
+			#try:
+			result = self._search(driver, spot)
+			for consumer in self._consumers:
+				consumer.consume(result)
+			#except Exception as e:
+			#	print str(e)
+			#	print 'Erro ao procurar pokemon no  FPM, recuperando...'
 		
 		driver.quit()
 
@@ -94,7 +95,9 @@ class FPMSearchResult():
 
 			expiration = float(expiration_ts) / 1000
 			spawn = ''
-			encounter_id = ''
+
+			hash_text = '%s%s%s' % (id, lat, lng)
+			encounter_id = hashlib.sha1(hash_text.encode("UTF-8")).hexdigest()[:10]
 
 			pokemon = Pokemon(id, name)
 			encounters.append(PokemonEncounter(pokemon, lat, lng, expiration, spawn, encounter_id))
