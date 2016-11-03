@@ -28,9 +28,16 @@ In ~/.pokemon create config.json and puts your email info:
 			"from": "mail@gmail.com",
 			"password": "emailpassword",
 			"maps-key": "mapskey",
+			"continuous": {
+				"enable": true,
+				"minimum-interval-in-minutes": "2"
+			},
 			"to": [
 				"iwantpokemon@mail.com"
 			]
+		},
+		"filter":{
+			"names": [ "dragonite", "snorlax", "lapras" ]
 		}
 	},
 	"places": {
