@@ -34,13 +34,13 @@ class FPMWebdriverAgent():
 
 		driver = self.open_fpm()
 		for spot in dests:
-			#try:
-			result = self._search(driver, spot)
-			for consumer in self._consumers:
-				consumer.consume(result)
-			#except Exception as e:
-			#	print str(e)
-			#	print 'Erro ao procurar pokemon no  FPM, recuperando...'
+			try:
+				result = self._search(driver, spot)
+				for consumer in self._consumers:
+					consumer.consume(result)
+			except Exception as e:
+				print str(e)
+				print 'Erro ao procurar pokemon no  FPM, recuperando...'
 		
 		driver.quit()
 
