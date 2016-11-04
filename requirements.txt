@@ -1,5 +1,4 @@
 cherrypy==7.1.0
-retrying==1.3.3
 ntplib==0.3.3
 objectpath==0.5
 requests==2.10.0
