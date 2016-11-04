@@ -12,6 +12,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 from pokemon import Pokemon, PokemonEncounter
 from db.pokedex import Pokedex
 from fake_useragent import UserAgent
+from geopy.distance import vincenty
 
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -22,6 +23,7 @@ from selenium.webdriver.chrome.options import Options
 
 FPM_DIAMETER = 400
 TIMEOUT = 120
+MAX_RANGE_KM = 10
 
 class FPMWebdriverAgent():
 	
@@ -66,7 +68,7 @@ class FPMWebdriverAgent():
 			EC.invisibility_of_element_located((By.CLASS_NAME, 'active')))
 
 		elements = driver.find_elements_by_class_name('displaypokemon')
-		return FPMSearchResult(elements)
+		return FPMSearchResult(spot, elements)
 
 	def _set_geolocation(self, driver, spot):
 		geo_js = "window.marker.setLatLng([parseFloat(%s), parseFloat(%s)]).update()" % spot
@@ -75,8 +77,9 @@ class FPMWebdriverAgent():
 
 class FPMSearchResult():
 
-	def __init__(self, elements):
+	def __init__(self, search_spot, elements):
 		self._elements = elements
+		self._search_spot = search_spot
 
 	def pokemon(self):
 		if not self._elements:
@@ -93,6 +96,10 @@ class FPMSearchResult():
 				expiration_ts = element.find_element_by_class_name('remainingtext').get_attribute('data-expire')
 			except Exception, e:
 				print 'pokemon disappears...'
+				continue
+
+			pokemon_spot = (lat, lng)
+			if vincenty(self._search_spot, pokemon_spot).km > MAX_RANGE_KM:
 				continue
 
 			expiration = float(expiration_ts) / 1000
