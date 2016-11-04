@@ -73,6 +73,3 @@ In ~/.pokemon create config.json and puts your email info:
 
 > ex: xvfb-run -a python main.py place
 
-
-### TODO:
-Move search pokemon names (still in searchagents/searcher.py (shame, shame, shame!!!)) to config.json
