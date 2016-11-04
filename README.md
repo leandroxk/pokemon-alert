@@ -59,6 +59,8 @@ In ~/.pokemon create config.json and puts your email info:
 ### About Maps Key
 > https://developers.google.com/maps/documentation/javascript/get-api-key
 
+### Gmail Security 
+> https://support.google.com/accounts/answer/6010255?hl=en
 
 ### Usage
 
